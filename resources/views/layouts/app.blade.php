@@ -29,7 +29,6 @@
 
             <!-- Page Content -->
             <main>
-                <h1>Hi !</h1>
                 {{ $slot }}
             </main>
         </div>
