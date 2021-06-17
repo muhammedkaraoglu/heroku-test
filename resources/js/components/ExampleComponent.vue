@@ -6,7 +6,7 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        Hi, my names Muhammed Emin. $this my project
+                        Hi, my names Muhammed Emin. $this my project ==> heroku test
                     </div>
                 </div>
             </div>
