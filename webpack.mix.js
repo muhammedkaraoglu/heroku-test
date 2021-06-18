@@ -13,4 +13,14 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .vue()
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css',{
+        sourceMap: true,
+        sassOptions: {
+          outputStyle: "compressed",
+        },
+    })
+    //.minify('public/css/app.css');
+    //  outputStyle: mix.inProduction ? 'compressed' : 'expanded'
+    mix.postCss('resources/css/custom.css','public/css/app.css',{
+        outputStyle: "compressed"
+    }).minify('public/css/app.css');
