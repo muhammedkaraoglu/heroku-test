@@ -26,7 +26,7 @@
           :href="route('login')"
           class="text-sm text-gray-700 underline"
         >
-          Login
+          Login2 {{ appUrl }}
         </inertia-link>
 
         <inertia-link
@@ -372,6 +372,7 @@ export default {
     canRegister: Boolean,
     laravelVersion: String,
     phpVersion: String,
+    appUrl: String,
   },
 };
 </script>
