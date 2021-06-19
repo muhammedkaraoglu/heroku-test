@@ -26,7 +26,7 @@
           href="https://www.google.com"
           class="text-sm text-gray-700 underline"
         >
-          Login2 {{ appUrl }} {{ route("login") }}
+          TEST {{ appUrl }} {{ route("login") }}
         </inertia-link>
 
         <inertia-link
