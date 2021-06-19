@@ -16,7 +16,7 @@
       <inertia-link
         v-if="$page.props.user"
         href="/dashboard"
-        class="text-sm text-gray-700 underline"
+        class="text-sm text-gray-100 underline"
       >
         Dashboard
       </inertia-link>
@@ -24,14 +24,14 @@
       <template v-else>
         <inertia-link
           href="https://www.google.com"
-          class="text-sm text-gray-700 underline"
+          class="text-sm text-gray-100 underline"
         >
-          TEST {{ appUrl }} {{ route("login") }}
+          TEST {{ appUrl }} {{ route("test") }}
         </inertia-link>
 
         <inertia-link
           :href="route('login')"
-          class="text-sm text-gray-700 underline"
+          class="text-sm text-gray-100 underline"
         >
           Login2 {{ appUrl }} {{ route("login") }}
         </inertia-link>
@@ -39,7 +39,7 @@
         <inertia-link
           v-if="canRegister"
           :href="route('register')"
-          class="ml-4 text-sm text-gray-700 underline"
+          class="ml-4 text-sm text-gray-100 underline"
         >
           Register
         </inertia-link>
