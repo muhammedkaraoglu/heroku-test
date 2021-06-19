@@ -23,10 +23,17 @@
 
       <template v-else>
         <inertia-link
+          href="https://www.google.com"
+          class="text-sm text-gray-700 underline"
+        >
+          Login2 {{ appUrl }} {{ route("login") }}
+        </inertia-link>
+
+        <inertia-link
           :href="route('login')"
           class="text-sm text-gray-700 underline"
         >
-          Login2 {{ appUrl }}
+          Login2 {{ appUrl }} {{ route("login") }}
         </inertia-link>
 
         <inertia-link
