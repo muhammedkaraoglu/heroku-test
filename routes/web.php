@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +20,26 @@ Route::get('/', function () {
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'appUrl' => config('app.url'),
+        'phpVersion' => PHP_VERSION
     ]);
 });
 
-Route::get('/test',fn() => 'test')->name('test');
+Route::group(['namespance' => 'App\Https\Controllers\App','prefix' => '/app','as' => 'app'],function(){
+
+    Route::get('/','HomeController@index')->name('dasboard');
+
+});
+
+Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app','as' => 'app'],
+    fn() => [
+        Route::get('/','DashboardController@index')->name('dasboard'),
+    ]
+);
+
+
+Route::get('/login','App\Http\Controllers\Auth\AuthenticatedSessionController@create')->name('login');
+
+//Route::get('/login',fn() => 'test')->name('login');
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

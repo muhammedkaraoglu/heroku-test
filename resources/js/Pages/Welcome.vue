@@ -23,17 +23,10 @@
 
       <template v-else>
         <inertia-link
-          href="https://www.google.com"
-          class="text-sm text-gray-100 underline"
-        >
-          TEST {{ appUrl }} {{ route("test") }}
-        </inertia-link>
-
-        <inertia-link
           :href="route('login')"
           class="text-sm text-gray-100 underline"
         >
-          Login2 {{ appUrl }} {{ route("login") }}
+          Login
         </inertia-link>
 
         <inertia-link
@@ -379,7 +372,6 @@ export default {
     canRegister: Boolean,
     laravelVersion: String,
     phpVersion: String,
-    appUrl: String,
   },
 };
 </script>
