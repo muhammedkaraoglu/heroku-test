@@ -7,6 +7,8 @@ import PortalVue from 'portal-vue';
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+// import colors from 'vuetify/lib/util/colors'
+
 
 Vue.mixin({ methods: { route } });
 Vue.use(InertiaPlugin);
@@ -22,7 +24,13 @@ InertiaProgress.init({
 const app = document.getElementById('app');
 
 new Vue({
-    vuetify: new Vuetify(),
+    vuetify: new Vuetify({
+      theme: { dark: true ,themes:{
+        dark:{
+          //background: colors.indigo.base,
+        }
+      }},
+    }),
     render: (h) =>
         h(InertiaApp, {
             props: {

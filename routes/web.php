@@ -24,15 +24,14 @@ Route::get('/', function () {
     ]);
 });
 
-Route::group(['namespance' => 'App\Https\Controllers\App','prefix' => '/app','as' => 'app'],function(){
+//Route::group(['namespance' => 'App\Https\Controllers\App','prefix' => '/app','as' => 'app'],function(){
+//    Route::get('/','HomeController@index')->name('dasboard');
+//});
 
-    Route::get('/','HomeController@index')->name('dasboard');
-
-});
-
-Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app','as' => 'app'],
+Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app','as' => 'app.'],
     fn() => [
-        Route::get('/','DashboardController@index')->name('dasboard'),
+        Route::get('/','DashboardController@index')->name('index'),
+        Route::get('/create','DashboardController@create')->name('create'),
     ]
 );
 

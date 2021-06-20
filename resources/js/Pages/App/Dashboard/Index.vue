@@ -1,99 +1,58 @@
 <template>
-  <v-app id="inspire">
-    <v-system-bar app>
-      <v-spacer></v-spacer>
+  <v-container class="py-8 px-6" fluid>
+    <v-row>
+      <v-col cols="12">
+        <v-sheet min-height="20vh" rounded="lg">
+          <div class="header p-3">
+            <v-row>
+              <v-col>
+                <h3 class="title text-xl">Son Eklenen Notlar</h3>
+              </v-col>
+            </v-row>
+          </div>
+          <v-divider></v-divider>
+          <div class="body">
+            <v-list subheader>
+              <v-subheader>Notlarım </v-subheader>
 
-      <v-icon>mdi-square</v-icon>
+              <v-list-item v-for="note in notes" :key="note.id" link>
+                <v-list-item-content>
+                  <v-list-item-title v-text="note.title"></v-list-item-title>
+                  <v-list-item-subtitle
+                    class="pl-2 pt-2"
+                    v-html="note.description"
+                  ></v-list-item-subtitle>
+                </v-list-item-content>
 
-      <v-icon>mdi-circle</v-icon>
-
-      <v-icon>mdi-triangle</v-icon>
-    </v-system-bar>
-
-    <v-navigation-drawer v-model="drawer" app>
-      <v-sheet color="grey lighten-4" class="pa-4">
-        <v-avatar class="mb-4" color="grey darken-1" size="64"></v-avatar>
-
-        <div>john@vuetifyjs.com</div>
-      </v-sheet>
-
-      <v-list class="">
-        <v-list-item v-for="n in 5" :key="n" link>
-          <v-list-item-content>
-            <v-list-item-title>Item {{ n }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-      <v-divider></v-divider>
-
-      <v-list>
-        <v-list-item v-for="[icon, text] in links" :key="icon" link>
-          <v-list-item-icon>
-            <v-icon>{{ icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-main>
-      <v-container class="py-8 px-6" fluid>
-        <v-row>
-          <v-col v-for="card in cards" :key="card" cols="12">
-            <v-card>
-              <v-subheader>{{ card }}</v-subheader>
-
-              <v-list two-line>
-                <template v-for="n in 6">
-                  <v-list-item :key="n">
-                    <v-list-item-avatar color="grey darken-1">
-                    </v-list-item-avatar>
-
-                    <v-list-item-content>
-                      <v-list-item-title>Message {{ n }}</v-list-item-title>
-
-                      <v-list-item-subtitle>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Nihil repellendus distinctio similique
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-
-                  <v-divider
-                    v-if="n !== 6"
-                    :key="`divider-${n}`"
-                    inset
-                  ></v-divider>
-                </template>
-              </v-list>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+                <v-list-item-icon>
+                  <inertia-link :href="route('app.create')">
+                    <v-icon :color="'primary'"> mdi-eye </v-icon>
+                  </inertia-link>
+                </v-list-item-icon>
+              </v-list-item>
+            </v-list>
+          </div>
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 export default {
-  props: ["sessions"],
+  name: "PageDashboard",
+  layout: AppLayout,
+  props: {},
   data: () => ({
-    cards: ["Today", "Yesterday"],
-    drawer: null,
-    links: [
-      ["mdi-inbox-arrow-down", "Inbox"],
-      ["mdi-send", "Send"],
-      ["mdi-delete", "Trash"],
-      ["mdi-alert-octagon", "Spam"],
+    notes: [
+      { id: 1, title: "Test Note", description: "Notun içeriği" },
+      { id: 2, title: "test note 2", description: "deneme" },
     ],
   }),
-  components: {
-    AppLayout,
+  mounted: function () {},
+  created: function () {
+    //this.$emit("update:layout", AppLayout);
   },
 };
 </script>

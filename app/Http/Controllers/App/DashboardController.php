@@ -5,6 +5,7 @@ namespace App\Http\Controllers\App;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Diglactic\Breadcrumbs\Breadcrumbs;
 
 class DashboardController extends Controller
 {
@@ -15,6 +16,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        //$pageBreadcrumb = collect(['text' => "Gösterge Paneli",'disabled' => false,'href' =>  "login"]);
+        Inertia::share(['pageBreadcrumb' => Breadcrumbs::generate('app.index')]);
         return Inertia::render('App/Dashboard/Index');
     }
 
@@ -25,7 +28,8 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        //
+        Inertia::share(['pageBreadcrumb' => Breadcrumbs::generate('app.create')]);
+        return Inertia::render('App/Dashboard/Create');
     }
 
     /**
