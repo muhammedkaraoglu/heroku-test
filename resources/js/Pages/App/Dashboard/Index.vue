@@ -25,7 +25,7 @@
                 </v-list-item-content>
 
                 <v-list-item-icon>
-                  <inertia-link :href="route('app.create')">
+                  <inertia-link :href="route('app.dashboard')">
                     <v-icon :color="'primary'"> mdi-eye </v-icon>
                   </inertia-link>
                 </v-list-item-icon>

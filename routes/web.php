@@ -30,8 +30,7 @@ Route::get('/', function () {
 
 Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app','as' => 'app.'],
     fn() => [
-        Route::get('/','DashboardController@index')->name('index'),
-        Route::get('/create','DashboardController@create')->name('create'),
+        Route::get('/','DashboardController@index')->name('dashboard'),
     ]
 );
 

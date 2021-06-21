@@ -9,10 +9,6 @@ use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
 // Home
-Breadcrumbs::for('app.index', function (BreadcrumbTrail $trail) {
-    $trail->push('Gösterge Paneli', route('app.index'));
-});
-Breadcrumbs::for('app.create', function (BreadcrumbTrail $trail) {
-    $trail->parent('app.index');
-    $trail->push('Oluşturma', route('app.create'));
+Breadcrumbs::for('app.dashboard', function (BreadcrumbTrail $trail) {
+    $trail->push('Gösterge Paneli', route('app.dashboard'));
 });

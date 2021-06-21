@@ -1,21 +1,24 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer app>
+    <v-navigation-drawer app v-model="drawer">
       <v-sheet color="" class="pa-4">
         <v-avatar class="mb-4" color="grey darken-2" size="64"></v-avatar>
         <div>john@vuetifyjs.com</div>
       </v-sheet>
 
-      <v-list class="">
-        <v-list-item v-for="n in 5" :key="n" link>
+      <!-- <v-list class="">
+        <v-list-item link>
+          <v-list-item-icon>
+            <v-icon> mdi-eye </v-icon>
+          </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Item {{ n }}</v-list-item-title>
+            <v-list-item-title> TEST </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
+      </v-list> -->
 
+      <sidebar-nav :navs="navs"></sidebar-nav>
       <v-divider></v-divider>
-
       <v-list>
         <v-list-item v-for="[icon, text] in links" :key="icon" link>
           <v-list-item-icon>
@@ -31,6 +34,7 @@
 
     <v-main>
       <v-app-bar app flat>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-breadcrumbs>
           <v-breadcrumbs-item
             v-for="(item, index) in breadcrumbs"
@@ -59,12 +63,60 @@
   </v-app>
 </template>
 
+
 <script>
+import SidebarNav from "@/components/SidebarNav";
+
 export default {
   name: "AppLayout",
-  components: {},
+  components: {
+    SidebarNav,
+  },
   props: {},
   data: () => ({
+    drawer: true,
+    navs: [
+      {
+        id: 1,
+        title: "Gösterge Paneli",
+        icon: "mdi-view-dashboard-variant-outline",
+        href: "app.dashboard",
+      },
+      {
+        id: 2,
+        title: "Notlarım",
+        icon: "mdi-playlist-edit",
+        href: "app.dashboard",
+        childs: [
+          {
+            id: 3,
+            title: "Not Listesi",
+            icon: "mdi-playlist-edit",
+            href: "app.dashboard",
+            childs: [
+              {
+                id: 4,
+                title: "Not Listesi 2",
+                icon: "mdi-playlist-edit",
+                href: "app.dashboard",
+              },
+              {
+                id: 5,
+                title: "Not Listesi 2123231",
+                icon: "mdi-playlist-edit",
+                href: "app.dashboard",
+              },
+            ],
+          },
+          {
+            id: 6,
+            title: "Noy Oluştur",
+            icon: "mdi-view-dashboard-variant-outline",
+            href: "app.dashboard",
+          },
+        ],
+      },
+    ],
     links: [
       ["mdi-inbox-arrow-down", "Inbox"],
       ["mdi-send", "Send"],
