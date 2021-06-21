@@ -12,25 +12,44 @@
           </div>
           <v-divider></v-divider>
           <div class="body">
-            <v-list subheader>
-              <v-subheader>Notlarım </v-subheader>
+            <v-expand-transition>
+              <div v-if="notesLoad">
+                <v-list subheader>
+                  <v-subheader>Notlarım </v-subheader>
+                  <v-list-item v-for="note in notes" :key="note.id" link>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-text="note.title"
+                      ></v-list-item-title>
+                      <v-list-item-subtitle
+                        class="pl-2 pt-2"
+                        v-html="note.description"
+                      ></v-list-item-subtitle>
+                    </v-list-item-content>
 
-              <v-list-item v-for="note in notes" :key="note.id" link>
-                <v-list-item-content>
-                  <v-list-item-title v-text="note.title"></v-list-item-title>
-                  <v-list-item-subtitle
-                    class="pl-2 pt-2"
-                    v-html="note.description"
-                  ></v-list-item-subtitle>
-                </v-list-item-content>
-
-                <v-list-item-icon>
-                  <inertia-link :href="route('app.dashboard')">
-                    <v-icon :color="'primary'"> mdi-eye </v-icon>
-                  </inertia-link>
-                </v-list-item-icon>
-              </v-list-item>
-            </v-list>
+                    <v-list-item-icon>
+                      <inertia-link :href="route('app.dashboard')">
+                        <v-icon :color="'primary'"> mdi-eye </v-icon>
+                      </inertia-link>
+                    </v-list-item-icon>
+                  </v-list-item>
+                  <v-alert
+                    v-if="notes.length <= 0"
+                    border="left"
+                    color="red"
+                    elevation="3"
+                    type="info"
+                    class="mx-3"
+                    >Henüz eklenmiş olan notunuz bulunmamaktadır.</v-alert
+                  >
+                </v-list>
+              </div>
+            </v-expand-transition>
+            <v-skeleton-loader
+              v-show="notesLoad == false"
+              elevation="2"
+              type="article"
+            ></v-skeleton-loader>
           </div>
         </v-sheet>
       </v-col>
@@ -45,13 +64,45 @@ export default {
   layout: AppLayout,
   props: {},
   data: () => ({
-    notes: [
-      { id: 1, title: "Test Note", description: "Notun içeriği" },
-      { id: 2, title: "test note 2", description: "deneme" },
-    ],
+    notes: [],
+    notesLoad: false,
+    note: {
+      title: "",
+      description: "",
+      created_at: "",
+      updated_at: "",
+    },
   }),
+  methods: {
+    getNote() {
+      axios
+        .get(route("app.api.note.index"))
+        .then((res) => {
+          this.notes = res.data;
+          this.notesLoad = true;
+          Toast.fire({
+            icon: "info",
+            title: "Hoşgeldin muhammed, seni burda görmek güzel.",
+          });
+        })
+        .catch((res) => {
+          console.log(this.notes);
+        });
+    },
+    async addNote() {
+      const res = await axios.post("/api/notes", this.note);
+      if (res.status === 201) {
+        Toast.fire({
+          icon: "success",
+          title: res.data,
+        });
+        console.log(res.data);
+      }
+    },
+  },
   mounted: function () {},
   created: function () {
+    this.getNote();
     //this.$emit("update:layout", AppLayout);
   },
 };

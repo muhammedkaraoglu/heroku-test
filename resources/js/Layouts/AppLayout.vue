@@ -18,6 +18,7 @@
       </v-list> -->
 
       <sidebar-nav :navs="navs"></sidebar-nav>
+
       <v-divider></v-divider>
       <v-list>
         <v-list-item v-for="[icon, text] in links" :key="icon" link>
@@ -48,7 +49,7 @@
             </inertia-link>
           </v-breadcrumbs-item>
         </v-breadcrumbs>
-
+        <v-spacer></v-spacer>
         <v-avatar
           class="hidden-sm-and-down"
           color="grey darken-1 shrink"
@@ -85,7 +86,7 @@ export default {
       {
         id: 2,
         title: "Notlarım",
-        icon: "mdi-playlist-edit",
+        icon: "mdi-note-multiple-outline",
         href: "app.dashboard",
         childs: [
           {
@@ -93,25 +94,11 @@ export default {
             title: "Not Listesi",
             icon: "mdi-playlist-edit",
             href: "app.dashboard",
-            childs: [
-              {
-                id: 4,
-                title: "Not Listesi 2",
-                icon: "mdi-playlist-edit",
-                href: "app.dashboard",
-              },
-              {
-                id: 5,
-                title: "Not Listesi 2123231",
-                icon: "mdi-playlist-edit",
-                href: "app.dashboard",
-              },
-            ],
           },
           {
             id: 6,
-            title: "Noy Oluştur",
-            icon: "mdi-view-dashboard-variant-outline",
+            title: "Not Oluştur",
+            icon: "mdi-pencil-plus-outline",
             href: "app.dashboard",
           },
         ],

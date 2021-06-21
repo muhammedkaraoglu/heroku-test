@@ -16,6 +16,20 @@ Vue.use(PortalVue);
 //also add this line
 Vue.use(Vuetify);
 
+const Swal = require('sweetalert2')
+
+window.Toast = Swal.mixin({
+  toast: true,
+  position: 'top-right',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
 import { InertiaProgress } from '@inertiajs/progress'
 InertiaProgress.init({
     color: '#49FF74',
