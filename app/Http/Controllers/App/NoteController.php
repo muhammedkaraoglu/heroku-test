@@ -39,7 +39,19 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validate($request,[
+            'title' => 'required',
+            'description' => 'required'
+        ]);
+
+        $note = new Note();
+        $note->title = $request->title;
+        $note->description = $request->description;
+        $note->save();
+
+        return response('Başarıyla notunuz kayıt edilmiştir.',201);
+
     }
 
     /**

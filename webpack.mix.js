@@ -17,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js').vue()
         require('tailwindcss'),
         require('autoprefixer'),
     ])
+    .postCss('resources/css/reset.css', 'public/css/app.css')
     //.sass('resources/sass/app.scss', 'public/css',{
     //    sourceMap: true,
     //    sassOptions: {

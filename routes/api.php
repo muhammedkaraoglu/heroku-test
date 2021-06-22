@@ -24,6 +24,7 @@ Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app/api','
     Route::group(['prefix' => '/note','as' => 'note.'],
       fn() => [
         Route::get('/','NoteController@index')->name('index'),
+        Route::post('/','NoteController@store')->name('store'),
       ]),
   ]
 );

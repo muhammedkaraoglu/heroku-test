@@ -54,6 +54,53 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-sheet min-height="20vh" rounded="lg">
+          <div class="header p-3">
+            <v-row>
+              <v-col>
+                <h3 class="title text-xl">Yeni Not Oluştur</h3>
+              </v-col>
+            </v-row>
+          </div>
+          <v-divider></v-divider>
+          <div class="body">
+            <v-form ref="noteAddForm" @submit.prevent>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      class="focus:outline-none"
+                      v-model="note.title"
+                      :rules="requiredRules"
+                      label="Not Başlığı"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="note.description"
+                      :rules="requiredRules"
+                      label="Not Açıklaması"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-btn type="submit" @click="validate" color="success"
+                      >KAYDET</v-btn
+                    >
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </div>
+        </v-sheet>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -64,46 +111,46 @@ export default {
   layout: AppLayout,
   props: {},
   data: () => ({
+    requiredRules: [(v) => !!v || "Lütfen alanı doldurunuz"],
     notes: [],
     notesLoad: false,
-    note: {
-      title: "",
-      description: "",
-      created_at: "",
-      updated_at: "",
-    },
+    note: { title: "", description: "", created_at: "", updated_at: "" },
   }),
   methods: {
+    validate() {
+      let validate = this.$refs.noteAddForm.validate();
+      if (validate) {
+        this.addNote();
+      }
+    },
     getNote() {
       axios
         .get(route("app.api.note.index"))
         .then((res) => {
           this.notes = res.data;
           this.notesLoad = true;
-          Toast.fire({
-            icon: "info",
-            title: "Hoşgeldin muhammed, seni burda görmek güzel.",
-          });
         })
-        .catch((res) => {
-          console.log(this.notes);
-        });
+        .catch((res) => {});
     },
     async addNote() {
-      const res = await axios.post("/api/notes", this.note);
+      this.notesLoad = false;
+      const res = await axios.post(route("app.api.note.store"), this.note);
+
       if (res.status === 201) {
         Toast.fire({
           icon: "success",
           title: res.data,
         });
-        console.log(res.data);
+        this.note.title = "";
+        this.note.description = "";
+        this.$refs.noteAddForm.resetValidation();
+        this.getNote();
       }
     },
   },
   mounted: function () {},
   created: function () {
     this.getNote();
-    //this.$emit("update:layout", AppLayout);
   },
 };
 </script>
