@@ -12,3 +12,7 @@ use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 Breadcrumbs::for('app.dashboard', function (BreadcrumbTrail $trail) {
     $trail->push('Gösterge Paneli', route('app.dashboard'));
 });
+Breadcrumbs::for('app.note.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('app.dashboard');
+    $trail->push('Not Oluştur', route('app.note.create'));
+});

@@ -11,7 +11,9 @@ a {
 }
 
 input[type="text"]:focus,
-input[type="text"]:focus-within {
+input[type="text"]:focus-within,
+textarea:focus,
+textarea:focus-within {
   box-shadow: none;
 }
 
@@ -21,4 +23,108 @@ input[type="text"]:focus-within {
 
 .v-input--is-focused .v-label {
   font-size: 1.1rem;
+}
+
+.theme--dark input:-webkit-autofill,
+.theme--dark textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 50px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #fff;
+}
+
+.theme--dark input:-webkit-autofill:focus,
+.theme--dark textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 50px transparent inset;
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: #fff;
+}
+
+
+
+/* Custom CSS
+ =======================*/
+
+#editorjs,
+.editorjs {
+  width: 100%;
+  font-size: 16px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.ce-toolbar__actions {
+  right: 30px;
+  top: 10px;
+}
+
+.ce-toolbar__content {
+  max-width: 100%;
+}
+
+.ce-block__content {
+  padding-left: 30px;
+  max-width: 100%;
+}
+
+.codex-editor__redactor {
+  position: relative;
+  padding-top: 1rem;
+}
+
+.ce-toolbar__plus {
+  left: 0;
+}
+
+.ce-block--selected .ce-block__content {
+  background: #363636;
+}
+
+.codex-editor__redactor:before,
+.codex-editor__redactor:after {
+  bottom: -1px;
+  content: "";
+  left: 0;
+  position: absolute;
+  transition: .3s cubic-bezier(.25, .8, .5, 1);
+  width: 100%;
+  border-color: hsla(0, 0%, 100%, .7);
+  border-style: solid;
+  border-width: thin 0 0;
+}
+
+.codex-editor__redactor:before {
+  border-color: hsla(0, 0%, 100%, .7);
+  border-style: solid;
+  border-width: thin 0 0;
+}
+
+.codex-editor__redactor:after {
+  background-color: #2196f3;
+  border-color: #2196f3;
+  border-style: solid;
+  border-width: thin 0;
+  transform: scaleX(0);
+}
+
+#editorjs:hover .codex-editor__redactor:before {
+  /*Hoveer*/
+  border-color: #fff;
+}
+
+#editorjs:hover .codex-editor__redactor:after {
+  transform: scaleX(1);
+}
+
+.theme--dark.v-sheet .sheet-header {
+  border-bottom: 1px solid hsla(0, 0%, 100%, .12);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+}
+
+.theme--dark.v-sheet .sheet-content {
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
 }

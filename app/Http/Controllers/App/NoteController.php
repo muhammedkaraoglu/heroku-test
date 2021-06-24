@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Diglactic\Breadcrumbs\Breadcrumbs;
 use Inertia\Inertia;
 
 use App\Models\Note;
@@ -17,8 +18,9 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $results = Note::orderBy('id','desc')->get();
-        return response()->json($results);
+        return Inertia::render('App/Dashboard/Index',[
+            'notes' => Note::orderBy('id','desc')->get()
+        ]);
     }
 
     /**
@@ -28,7 +30,8 @@ class NoteController extends Controller
      */
     public function create()
     {
-        //
+        Inertia::share(['pageBreadcrumb' => Breadcrumbs::generate('app.note.create')]);
+        return Inertia::render('App/Note/Create');
     }
 
     /**
@@ -42,7 +45,6 @@ class NoteController extends Controller
 
         $this->validate($request,[
             'title' => 'required',
-            'description' => 'required'
         ]);
 
         $note = new Note();
@@ -50,7 +52,9 @@ class NoteController extends Controller
         $note->description = $request->description;
         $note->save();
 
-        return response('Başarıyla notunuz kayıt edilmiştir.',201);
+        return redirect()->route('app.note.create')->with('success','🎉  Başarıyla notunuz oluşturulmuştur.');
+
+        //return response('Başarıyla notunuz kayıt edilmiştir.',201);
 
     }
 

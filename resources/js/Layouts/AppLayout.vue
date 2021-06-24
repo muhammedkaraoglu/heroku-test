@@ -99,7 +99,7 @@ export default {
             id: 6,
             title: "Not Oluştur",
             icon: "mdi-pencil-plus-outline",
-            href: "app.dashboard",
+            href: "app.note.create",
           },
         ],
       },
@@ -124,6 +124,27 @@ export default {
   },
   created: function () {
     //this.$emit("update:layout", AppLayout);
+  },
+  watch: {
+    "$page.flash": {
+      handler() {
+        let successMessage = this.$page.props.flash.success;
+        let errorMessage = this.$page.props.flash.error;
+        if (successMessage != null) {
+          Toast.fire({
+            icon: "success",
+            title: successMessage,
+          });
+        }
+        if (errorMessage != null) {
+          Toast.fire({
+            icon: "error",
+            title: errorMessage,
+          });
+        }
+      },
+      deep: true,
+    },
   },
 };
 </script>

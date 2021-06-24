@@ -7,8 +7,8 @@ import PortalVue from 'portal-vue';
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-// import colors from 'vuetify/lib/util/colors'
 
+// import colors from 'vuetify/lib/util/colors'
 
 Vue.mixin({ methods: { route } });
 Vue.use(InertiaPlugin);
@@ -35,6 +35,20 @@ InertiaProgress.init({
     color: '#49FF74',
 })
 
+Vue.prototype.thrott1le = (func, limit) => {
+    let inThrottle;
+    return function () {
+      const args = arguments;
+      const context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(() => (inThrottle = false), limit);
+      }
+    };
+  };
+
+
 const app = document.getElementById('app');
 
 new Vue({
@@ -42,6 +56,9 @@ new Vue({
       theme: { dark: true ,themes:{
         dark:{
           //background: colors.indigo.base,
+          //primary: colors.red.darken1, // #E53935
+          //secondary: colors.red.lighten4, // #FFCDD2
+          //accent: colors.indigo.base, // #3F51B5
         }
       }},
     }),

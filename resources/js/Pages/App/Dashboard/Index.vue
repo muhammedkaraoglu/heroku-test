@@ -29,7 +29,8 @@
 
                     <v-list-item-icon>
                       <inertia-link :href="route('app.dashboard')">
-                        <v-icon :color="'primary'"> mdi-eye </v-icon>
+                        <v-icon color="primary"> mdi-eye </v-icon>
+                        <v-icon color="red"> mdi-trash-can-outline </v-icon>
                       </inertia-link>
                     </v-list-item-icon>
                   </v-list-item>
@@ -70,11 +71,19 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" md="6">
+                    <progress
+                      v-if="note.progress"
+                      :value="note.progress.percentage"
+                      max="100"
+                    >
+                      {{ note.progress.percentage }}%
+                    </progress>
                     <v-text-field
                       class="focus:outline-none"
                       v-model="note.title"
-                      :rules="requiredRules"
                       label="Not Başlığı"
+                      :error-messages="errors.title"
+                      :rules="nameRules"
                       required
                     ></v-text-field>
                   </v-col>
@@ -82,7 +91,6 @@
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="note.description"
-                      :rules="requiredRules"
                       label="Not Açıklaması"
                       required
                     ></v-text-field>
@@ -90,7 +98,12 @@
                 </v-row>
                 <v-row>
                   <v-col>
-                    <v-btn type="submit" @click="validate" color="success"
+                    <v-btn
+                      type="submit"
+                      @click="validate"
+                      :disabled="sending"
+                      :loading="sending"
+                      color="success"
                       >KAYDET</v-btn
                     >
                   </v-col>
@@ -109,13 +122,25 @@ import AppLayout from "@/Layouts/AppLayout";
 export default {
   name: "PageDashboard",
   layout: AppLayout,
-  props: {},
-  data: () => ({
-    requiredRules: [(v) => !!v || "Lütfen alanı doldurunuz"],
-    notes: [],
-    notesLoad: false,
-    note: { title: "", description: "", created_at: "", updated_at: "" },
-  }),
+  props: {
+    notes: Array,
+    errors: Object,
+  },
+
+  data() {
+    return {
+      requiredRules: [(v) => !!v || "Lütfen alanı doldurunuz"],
+      nameRules: [
+        (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      ],
+      notesLoad: true,
+      sending: false,
+      note: this.$inertia.form({
+        title: null,
+        description: null,
+      }),
+    };
+  },
   methods: {
     validate() {
       let validate = this.$refs.noteAddForm.validate();
@@ -128,29 +153,59 @@ export default {
         .get(route("app.api.note.index"))
         .then((res) => {
           this.notes = res.data;
-          this.notesLoad = true;
         })
         .catch((res) => {});
     },
-    async addNote() {
-      this.notesLoad = false;
-      const res = await axios.post(route("app.api.note.store"), this.note);
-
-      if (res.status === 201) {
-        Toast.fire({
-          icon: "success",
-          title: res.data,
-        });
-        this.note.title = "";
-        this.note.description = "";
-        this.$refs.noteAddForm.resetValidation();
-        this.getNote();
-      }
+    addNote() {
+      this.$inertia.post(route("app.api.note.store"), this.note, {
+        preserveScroll: true,
+        onStart: () => (this.sending = true),
+        onSuccess: (page) => {
+          if (Object.keys(this.$page.props.errors).length === 0) {
+            this.note.reset();
+            this.$refs.noteAddForm.resetValidation();
+            //this.getNote();
+          }
+        },
+        onError: (errors) => {},
+        onFinish: () => (this.sending = false),
+      });
     },
   },
   mounted: function () {},
   created: function () {
-    this.getNote();
+    const throttle = (func, limit) => {
+      let inThrottle;
+      return function () {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+          func.apply(context, args);
+          inThrottle = true;
+          setTimeout(() => (inThrottle = false), limit);
+        }
+      };
+    };
+    this.debouncedGetAnswer = throttle(function () {
+      const pickBy = (object, predicate = (v) => v) =>
+        Object.fromEntries(
+          Object.entries(object).filter(([, v]) => predicate(v))
+        );
+      this.$inertia.get(this.route("app.api.note.index"), pickBy(this.note), {
+        preserveState: true,
+        preserveScroll: true,
+      });
+    }, 250);
+
+    //this.getNote();
+  },
+  watch: {
+    note: {
+      deep: true,
+      handler() {
+        this.debouncedGetAnswer();
+      },
+    },
   },
 };
 </script>

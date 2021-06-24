@@ -31,7 +31,19 @@ Route::get('/', function () {
 Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app','as' => 'app.'],
     fn() => [
         Route::get('/','DashboardController@index')->name('dashboard'),
+        Route::get('/note/create','NoteController@create')->name('note.create'),
     ]
+);
+
+Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app/api','as' => 'app.api.'],
+  fn() => [
+
+    Route::group(['prefix' => '/note','as' => 'note.'],
+      fn() => [
+        Route::get('/','NoteController@index')->name('index'),
+        Route::post('/','NoteController@store')->name('store'),
+      ]),
+  ]
 );
 
 

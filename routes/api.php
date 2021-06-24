@@ -17,14 +17,3 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
   return $request->user();
 });
-
-Route::group(['namespace' => 'App\Http\Controllers\App','prefix' => '/app/api','as' => 'app.api.'],
-  fn() => [
-
-    Route::group(['prefix' => '/note','as' => 'note.'],
-      fn() => [
-        Route::get('/','NoteController@index')->name('index'),
-        Route::post('/','NoteController@store')->name('store'),
-      ]),
-  ]
-);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\App;
 
+use App\Models\Note;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,7 +19,9 @@ class DashboardController extends Controller
     {
         //$pageBreadcrumb = collect(['text' => "Gösterge Paneli",'disabled' => false,'href' =>  "login"]);
         Inertia::share(['pageBreadcrumb' => Breadcrumbs::generate('app.dashboard')]);
-        return Inertia::render('App/Dashboard/Index');
+        return Inertia::render('App/Dashboard/Index',[
+            'notes' => Note::orderBy('id','desc')->get()
+        ]);
     }
 
 }
