@@ -35,18 +35,31 @@ InertiaProgress.init({
     color: '#49FF74',
 })
 
+import VueShowdown from 'vue-showdown'
+
+// the second parameter of Vue.use() is optional
+Vue.use(VueShowdown, {
+  // set default flavor of showdown
+  flavor: 'github',
+  // set default options of showdown (will override the flavor options)
+  options: {
+    emoji: true,
+  },
+})
+
+
 Vue.prototype.thrott1le = (func, limit) => {
-    let inThrottle;
-    return function () {
-      const args = arguments;
-      const context = this;
-      if (!inThrottle) {
-        func.apply(context, args);
-        inThrottle = true;
-        setTimeout(() => (inThrottle = false), limit);
-      }
-    };
+  let inThrottle;
+  return function () {
+    const args = arguments;
+    const context = this;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
   };
+};
 
 
 const app = document.getElementById('app');

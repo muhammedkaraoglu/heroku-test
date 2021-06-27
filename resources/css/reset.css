@@ -44,77 +44,10 @@ textarea:focus-within {
 /* Custom CSS
  =======================*/
 
-#editorjs,
-.editorjs {
-  width: 100%;
-  font-size: 16px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+::selection {
+  color: #fff;
+  background-color: #363636;
 }
-
-.ce-toolbar__actions {
-  right: 30px;
-  top: 10px;
-}
-
-.ce-toolbar__content {
-  max-width: 100%;
-}
-
-.ce-block__content {
-  padding-left: 30px;
-  max-width: 100%;
-}
-
-.codex-editor__redactor {
-  position: relative;
-  padding-top: 1rem;
-}
-
-.ce-toolbar__plus {
-  left: 0;
-}
-
-.ce-block--selected .ce-block__content {
-  background: #363636;
-}
-
-.codex-editor__redactor:before,
-.codex-editor__redactor:after {
-  bottom: -1px;
-  content: "";
-  left: 0;
-  position: absolute;
-  transition: .3s cubic-bezier(.25, .8, .5, 1);
-  width: 100%;
-  border-color: hsla(0, 0%, 100%, .7);
-  border-style: solid;
-  border-width: thin 0 0;
-}
-
-.codex-editor__redactor:before {
-  border-color: hsla(0, 0%, 100%, .7);
-  border-style: solid;
-  border-width: thin 0 0;
-}
-
-.codex-editor__redactor:after {
-  background-color: #2196f3;
-  border-color: #2196f3;
-  border-style: solid;
-  border-width: thin 0;
-  transform: scaleX(0);
-}
-
-#editorjs:hover .codex-editor__redactor:before {
-  /*Hoveer*/
-  border-color: #fff;
-}
-
-#editorjs:hover .codex-editor__redactor:after {
-  transform: scaleX(1);
-}
-
 .theme--dark.v-sheet .sheet-header {
   border-bottom: 1px solid hsla(0, 0%, 100%, .12);
   display: flex;
