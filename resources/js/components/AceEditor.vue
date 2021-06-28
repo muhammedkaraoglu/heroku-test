@@ -52,6 +52,6 @@ export default {
 </script>
 <style>
 .ace_content {
-  background: rgb(31 31 31) !important;
+  background: rgb(31, 31, 31) !important;
 }
 </style>

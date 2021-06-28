@@ -18,8 +18,8 @@ class NoteController extends Controller
      */
     public function index()
     {
-        return Inertia::render('App/Dashboard/Index',[
-            'notes' => Note::orderBy('id','desc')->get()
+        return Inertia::render('App/Dashboard/Index', [
+            'notes' => Note::orderBy('id', 'desc')->get()
         ]);
     }
 
@@ -43,7 +43,7 @@ class NoteController extends Controller
     public function store(Request $request)
     {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
         ]);
 
@@ -52,7 +52,7 @@ class NoteController extends Controller
         $note->description = $request->description;
         $note->save();
 
-        return redirect()->route('app.note.create')->with('success','🎉  Başarıyla notunuz oluşturulmuştur.');
+        return redirect()->route('app.note.create')->with('success', '🎉  Başarıyla notunuz oluşturulmuştur.');
 
         //return response('Başarıyla notunuz kayıt edilmiştir.',201);
 

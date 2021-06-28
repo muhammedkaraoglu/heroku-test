@@ -32,9 +32,13 @@
           <v-row>
             <v-col md="6">
               <v-toolbar dense flat>
-                <v-menu offset-x :close-on-content-click="false">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon v-bind="attrs" v-on="on">
+                <v-menu
+                  offset-x
+                  :close-on-content-click="false"
+                  v-model="menuOpened"
+                >
+                  <template v-slot:activator="{ on: { click }, attrs }">
+                    <v-btn v-on:click="click" icon v-bind="attrs">
                       <v-icon>mdi-emoticon-outline</v-icon>
                     </v-btn>
                   </template>
@@ -53,6 +57,7 @@
                     <div class="w-full px-3 pt-3 fixed top-0">
                       <v-text-field
                         label="Emoji Ara..."
+                        v-model="searchTerm"
                         outlined
                         dense
                       ></v-text-field>
@@ -64,7 +69,8 @@
                         top-16
                         d-flex
                         flex-row flex-wrap
-                        items-center
+                        items-start
+                        content-start
                         px-2
                         absolute
                         calc-h-full-16
@@ -72,12 +78,13 @@
                     >
                       <div
                         class="emoji-item w-10 p-2"
-                        v-for="emoji in emojies"
+                        v-for="(emoji, text) in testemoji"
                         :key="emoji"
                       >
-                        <v-img
+                        <img
                           class="w-full cursor-pointer mr-3 mb-3"
                           :src="emoji"
+                          :alt="`:${text}:`"
                         />
                       </div>
                     </div>
@@ -118,28 +125,6 @@
             </v-col>
           </v-row>
         </div>
-
-        <v-responsive class="overflow-y-auto" max-height="400">
-          <div class="pa-6 text-center">Scroll down</div>
-
-          <v-responsive height="200vh" class="text-center pa-2">
-            <v-responsive min-height="50vh"></v-responsive>
-            <div class="text-center text-body-2 mb-12">
-              The card will appear below:
-            </div>
-
-            <v-lazy
-              v-model="isActive"
-              :options="{
-                threshold: 0.5,
-              }"
-              min-height="200"
-              transition="fade-transition"
-            >
-              <v-card class="mx-auto" max-width="336"> </v-card>
-            </v-lazy>
-          </v-responsive>
-        </v-responsive>
       </v-form>
     </v-sheet>
   </v-container>
@@ -162,7 +147,7 @@ export default {
   },
   data() {
     return {
-      isActive: false,
+      searchTerm: "",
       emojies: {},
       descPreview: "",
       previewLoading: false,
@@ -180,10 +165,24 @@ export default {
       ],
     };
   },
+  computed: {
+    testemoji: function () {
+      Object.filter = (obj, predicate) =>
+        Object.fromEntries(Object.entries(obj).filter(predicate));
+      return Object.filter(this.emojies, ([name, url]) => {
+        return name.indexOf(this.searchTerm) > -1;
+      });
+    },
+  },
   methods: {
     setDescPreview(value) {
       this.descPreview = value;
       this.previewLoading = true;
+    },
+    getEmoji() {
+      for (const [key, value] of Object.entries(EmojiPath)) {
+        this.emojies[value] = `https://twemoji.maxcdn.com/2/svg/${key}.svg`;
+      }
     },
     validate() {
       let form = this.$refs.storeNoteForm;
@@ -206,15 +205,14 @@ export default {
     },
   },
   mounted: function () {
-    for (const [key, value] of Object.entries(EmojiPath)) {
-      this.emojies[value] = `https://twemoji.maxcdn.com/2/svg/${key}.svg`;
-    }
     Prism.highlightAll();
   },
-  created: function () {},
+  created: function () {
+    this.getEmoji();
+  },
   watch: {
     descPreview: {
-      handler: function (value) {
+      handler(value) {
         setTimeout(() => {
           this.previewLoading = false;
           setTimeout(() => Prism.highlightAll(), 1);
